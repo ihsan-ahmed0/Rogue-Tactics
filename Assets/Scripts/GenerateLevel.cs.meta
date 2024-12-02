@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 2713055040abd8b40a6fee744639cc69
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GrassTile1: {fileID: 2400456379479898727, guid: 03fa4c04987336342be55f2a5da91efc, type: 3}
+  - GrassTile2: {fileID: 1875796561513144256, guid: 6e3d36a5c88138b408302eb385cf422a, type: 3}
+  - GrassTile3: {fileID: 8161241623343715520, guid: b72b43b850c6d134ba7e5b98fb895318, type: 3}
+  - GrassTile4: {fileID: 1103722678666338216, guid: 5a5c10737f309894f84465d72d217fc3, type: 3}
+  - GrassTile5: {fileID: 6352402613949850136, guid: d19ded51b7c7ded48b45c66267d8809f, type: 3}
+  - GrassTile6: {fileID: 7118441267228564400, guid: b66fa5f11ad52364c9445224d758f603, type: 3}
+  - GrassTile7: {fileID: 7666570941128934582, guid: 1277c1827495f5a4fa8ceb5bcf378085, type: 3}
+  - GrassTile8: {fileID: 2524414484852275697, guid: 1e3fd28d25565f04283d415699fdb38e, type: 3}
+  - GrassTile9: {fileID: 7134035419702981944, guid: e5ead879df91b0e4fa612fbff8d30eb3, type: 3}
+  - GrassTile10: {fileID: 3762546931534634839, guid: 8163932dede9a3e4fb8a6e5dfe086fd9, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
