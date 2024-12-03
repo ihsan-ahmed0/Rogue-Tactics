@@ -20,7 +20,9 @@ public class CharacterClass
     {
         
     }
-    
+    public CharacterClass(){
+        
+    }
     public int GetMP(){
         return MP;
     }
