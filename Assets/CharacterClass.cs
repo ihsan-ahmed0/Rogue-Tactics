@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CharacterClass 
 {
-    public static  int MP=0;
-     public static int HP=0;
-        public static  int Speed=0;
-        public static  int Dexterity=0;
-        public static  int Luck=0 ;
+    public int MP=0;
+     public int HP=0;
+        public int Speed=0;
+        public int Dexterity=0;
+        public int Luck=0 ;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class CharacterClass
         
     }
     public CharacterClass(){
-        
+
     }
     public int GetMP(){
         return MP;
