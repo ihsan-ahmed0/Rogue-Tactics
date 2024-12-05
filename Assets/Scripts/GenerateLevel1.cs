@@ -29,8 +29,8 @@ public class GenerateLevel1 : MonoBehaviour
     private int tileWidth = 64;
     private int tileHeight = 64;
 
-    // The inverse of the ppi of the sprites being used for the tiles.
-    private float ppiInverse = 0.01f;
+    // The inverse of the pixels per unit (ppu) of the sprites being used for the tiles.
+    private float ppuInverse = 0.01f;
 
     private GameObject[,] grid;
 
@@ -50,14 +50,14 @@ public class GenerateLevel1 : MonoBehaviour
     // Function that renders the tiles of the current level.
     private void RenderGrid()
     {
-        float sizeIncrement = 8 * ppiInverse;
+        float sizeIncrement = 8 * ppuInverse;
 
         for (int i = 0; i < gridWidth; i++)
         {
             for (int j = 0; j < gridLength; j++)
             {
-                float x = (0.5f * tileWidth * i - 0.5f * tileWidth * j) * ppiInverse;
-                float y = (0.25f * tileHeight * i + 0.25f * tileHeight * j) * ppiInverse;
+                float x = (0.5f * tileWidth * i - 0.5f * tileWidth * j) * ppuInverse;
+                float y = (0.25f * tileHeight * i + 0.25f * tileHeight * j) * ppuInverse;
 
                 // Choose the correct tile based on the specified tile height.
                 if (tileHeights[i , j] == 1)
