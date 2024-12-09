@@ -1,45 +1,96 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
-public class LevelGrid : MonoBehaviour
+public class LevelGrid : ScriptableObject
 {
-    [Header("Tiles used for Level Generation")]
-    [SerializeField] GameObject tile;
+    private GameObject[,] tileGrid; // Grid of all of the tiles used in the level.
 
-    // Dimensions of the level grid.
-    private int gridWidth = 10;
-    private int gridHeight = 10;
+    // Variables to make sure a coordinate out of bounds of the tile grid is never accessed.
+    private int rows;
+    private int columns;
 
-    // Width and height of a single tile sprite (in pixels).
-    private int tileWidth = 64;
-    private int tileHeight = 64;
-
-    private float ppiInverse = 0.01f;
-
-    private GameObject[,] grid;
-
-
-    private void RenderGrid() {
-        for (int i = 0; i < gridWidth; i++) {
-            for (int j = 0; j < gridHeight; j++) {
-                float x = (0.5f * tileWidth * i - 0.5f * tileWidth * j) * ppiInverse;
-                float y = (0.25f * tileHeight * i + 0.25f * tileHeight * j) * ppiInverse;
-                
-                grid[i, j] = Instantiate(tile, new Vector3(x, y, y), Quaternion.identity);
-                Instantiate(tile, new Vector3(x, y - 0.25f * tileHeight * ppiInverse, y + 0.0001f), Quaternion.identity);
-            }
+    // Method to initialize the grid. Should only be called once after the LevelGrid is created.
+    public void InitializeGrid(int rows, int columns)
+    {
+        if (tileGrid == null)
+        {
+            tileGrid = new GameObject[rows, columns];
+            this.rows = rows;
+            this.columns = columns;
+        }
+        else
+        {
+            Debug.LogError("This LevelGrid has already been initialized!");
         }
     }
 
-    // Start is called before the first frame update
-    void Start() {
-        grid = new GameObject[gridWidth, gridHeight];
-        RenderGrid();
+    // Method to set the tile at specific coordinates on the tile grid.
+    // Returns true if tile is successfully added, and returns false otherwise.
+    public bool SetTileAt(int row, int col, GameObject tile)
+    {
+        if (tileGrid == null)
+        {
+            Debug.LogError("LevelGrid is not initialized!");
+            return false;
+        }
+
+        if (tile.GetComponent<Tile>() == null)
+        {
+            Debug.LogError("Game objects must be Tiles to be added to the LevelGrid.");
+            return false;
+        }
+
+        if (row < 0 || row >= rows || col < 0 || col >= columns)
+        {
+            Debug.LogError("Inputted coordinates are out of the LevelGrid bounds.");
+            return false;
+        }
+
+        tileGrid[row, col] = tile;
+        return true;
     }
 
-    // Update is called once per frame
-    void Update() {
-        
+    // Method to get a tile from specific coordinates on the tile grid.
+    public GameObject GetTileAt(int row, int col)
+    {
+        if (tileGrid == null)
+        {
+            Debug.LogError("LevelGrid not initialized!");
+            return null;
+        }
+
+        if (row < 0 || row >= rows || col < 0 || col >= columns)
+        {
+            Debug.LogError("Inputted coordinates are out of the LevelGrid bounds.");
+            return null;
+        }
+
+        return tileGrid[row, col];
+    }
+
+    // Method to get the number of rows in the tile grid.
+    public int GetRows()
+    {
+        if (tileGrid == null)
+        {
+            Debug.LogError("The LevelGrid needs to be initialized first!");
+            return -1;
+        }
+
+        return rows;
+    }
+
+    // Method to get the number of columns in the tile grid.
+    public int GetCols()
+    {
+        if (tileGrid == null)
+        {
+            Debug.LogError("The LevelGrid needs to be initialized first!");
+            return -1;
+        }
+
+        return columns;
     }
 }
