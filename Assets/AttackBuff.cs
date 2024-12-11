@@ -15,7 +15,7 @@ public class AttackBuff : Skill
     }
 
     // Update is called once per frame
-public override void setBuff(){
+public override void setBuffKeyValue(){
      Boost= new KeyValuePair<int,string> (attackMultiplier,attackMultType);
 }
 public int getBuff(int stat){
