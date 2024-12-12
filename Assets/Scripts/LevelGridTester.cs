@@ -4,22 +4,11 @@ using UnityEngine;
 
 public class LevelGridTester : MonoBehaviour
 {
-    [Header("Level Grid Data")]
-    [SerializeField] LevelGrid levelGrid;
-
     // Start is called before the first frame update
     void Start()
     {
-        int rows = levelGrid.GetRows();
-        int cols = levelGrid.GetCols();
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                Debug.Log(levelGrid.GetTileAt(i, j).GetComponent<Tile>().GetHeight());
-            }
-        }
+        LevelGrid level1Grid = new LevelGrid();
+        level1Grid.LoadGrid("Level1");
     }
 
     // Update is called once per frame

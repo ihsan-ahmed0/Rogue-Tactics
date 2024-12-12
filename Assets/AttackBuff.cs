@@ -14,11 +14,19 @@ public class AttackBuff : Skill
         setBuff();
     }
 
+    /*
     // Update is called once per frame
-public override void setBuffKeyValue(){
-     Boost= new KeyValuePair<int,string> (attackMultiplier,attackMultType);
-}
-public int getBuff(int stat){
-    return attackMultiplier*stat;
-}
+    public override void setBuffKeyValue(){
+        Boost= new KeyValuePair<int,string> (attackMultiplier,attackMultType);
+    }
+    */
+
+    public int getBuff(int stat){
+        return attackMultiplier*stat;
+    }
+
+    public override void setBuff()
+    {
+        throw new System.NotImplementedException();
+    }
 }
