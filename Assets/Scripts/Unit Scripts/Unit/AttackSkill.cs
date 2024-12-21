@@ -6,7 +6,7 @@ using UnityEngine;
 public class AttackSkill : Skill
 {
 
-    public AttackSkill(string stat, int dmg, ClassType type, string id)
+    public AttackSkill(string stat, double dmg, ClassType type, string id)
     {
         attribute = stat;
         Damage = dmg;
@@ -25,8 +25,9 @@ public class AttackSkill : Skill
             defStat = "Res";
 
         double fixedLvl = caster.Level;
-        int randMod = caster.GetStat("Luck") / 10;
-        double formula = (0.4 * fixedLvl) + Damage * randMod;
+        double randMod = (double) caster.GetStat("Luck") / 10;
+        double formula = (0.4 * fixedLvl) + caster.GetStat("Str") * Damage;
+        Debug.Log(formula);
 
         int dmg = DmgCalc(formula, target.GetStat(defStat));
         target.AddDamage(dmg);
@@ -35,7 +36,8 @@ public class AttackSkill : Skill
     public int DmgCalc(double damage, int defStat) 
     {
         float calc = (float) damage - defStat;
-        var dmg = Mathf.FloorToInt(calc);
+        Debug.Log(calc);
+        var dmg = Mathf.RoundToInt(calc);
         // prevents a negative value from being returned
         dmg = (dmg < 0) ? 0 : dmg;  
 

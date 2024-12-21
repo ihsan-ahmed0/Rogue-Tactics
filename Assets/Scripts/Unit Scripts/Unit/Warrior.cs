@@ -24,7 +24,7 @@ public class Warrior : UnitClass{
 
     protected override void AddClassBonus()
     {
-        AddBonus(primaryStats[0], 3);
+        AddBonus(primaryStats[0], 1);
         AddBonus(primaryStats[1], 8);
     }
 

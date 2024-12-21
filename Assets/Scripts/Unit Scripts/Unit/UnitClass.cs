@@ -29,6 +29,8 @@ public abstract class UnitClass
         {
             stats[attributes[i]] = 5; // fill every stat with 5 as a base value during key-value pairing
         }   
+
+        // temp
     }
 
     // every class levels differently

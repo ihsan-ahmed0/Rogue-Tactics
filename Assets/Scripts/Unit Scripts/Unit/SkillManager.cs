@@ -84,7 +84,7 @@ public class SkillManager : MonoBehaviour
     public struct Attack
     {
         public string stat;
-        public int damage;
+        public double damage;
         public string name;
         public ClassType type;
     }
