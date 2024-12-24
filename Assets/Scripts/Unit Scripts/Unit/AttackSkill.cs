@@ -14,6 +14,14 @@ public class AttackSkill : Skill
         Name = id;
     }
 
+    public double FormulaCalc(UnitClass caster)
+    {
+        double fixedLvl = caster.Level;
+        double randMod = (double)caster.GetStat("Luck") / 10;
+        double formula = (0.4 * fixedLvl) + caster.GetStat("Str") * Damage;
+        return formula;
+    }
+
 
     public override void Activate(UnitClass caster, UnitClass target)
     {
@@ -24,13 +32,27 @@ public class AttackSkill : Skill
         else if (attribute.Equals("Mag"))
             defStat = "Res";
 
-        double fixedLvl = caster.Level;
-        double randMod = (double) caster.GetStat("Luck") / 10;
-        double formula = (0.4 * fixedLvl) + caster.GetStat("Str") * Damage;
-        Debug.Log(formula);
+        double formula = FormulaCalc(caster);
 
         int dmg = DmgCalc(formula, target.GetStat(defStat));
         target.AddDamage(dmg);
+    }
+
+    public override void Activate(UnitClass caster, List<UnitClass> targets)
+    {
+        var defStat = "";
+        // sees if unit will use physical or magic def stat
+        if (attribute.Equals("Str"))
+            defStat = "Def";
+        else if (attribute.Equals("Mag"))
+            defStat = "Res";
+
+        double formula = FormulaCalc(caster);
+
+        foreach (UnitClass target in targets){
+            int dmg = DmgCalc(formula, target.GetStat(defStat));
+            target.AddDamage(dmg);
+        }
     }
 
     public int DmgCalc(double damage, int defStat) 

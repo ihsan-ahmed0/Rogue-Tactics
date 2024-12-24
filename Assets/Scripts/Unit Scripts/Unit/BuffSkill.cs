@@ -17,6 +17,13 @@ public class BuffSkill : Skill
     {
        unit.AddBonus(attribute, multiplier);
     }
+
+    public override void Activate(List<UnitClass> units)
+    {
+        foreach (UnitClass unit in units) {
+            unit.AddBonus(attribute, multiplier);
+        }
+    }
 }
 
 

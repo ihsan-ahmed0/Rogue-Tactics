@@ -18,19 +18,24 @@ public abstract class UnitClass
     protected readonly string[] attributes;
     // used for class creation 
     public ClassType Type { get; protected set; }
+    public int ward = 0;
+    // buffwindow is a list of effects that are currently on a unit
+    // the combat class will check a unit's buffwindow every turn
+    public List<string> buffWindow;
+
 
     protected UnitClass()
     {
         // Res is mag def and Mag is mag atk. Str and Def are the phys version
         attributes = new string[] { "HP", "MP", "Str", "Mag", "Def", "Res", "Mov","Luck" };
         stats = new Dictionary<string, int>();
+        buffWindow = new List<string>();
 
         for(int i = 0; i < attributes.Length; i++)
         {
             stats[attributes[i]] = 5; // fill every stat with 5 as a base value during key-value pairing
         }   
 
-        // temp
     }
 
     // every class levels differently
@@ -67,6 +72,26 @@ public abstract class UnitClass
     public void AddDamage(int dmg)
     {
         stats["HP"] -= dmg;
+    }
+
+    public void AddHealth(int hp)
+    {
+        stats["HP"] += hp;
+    }
+
+    public void DepleteMP(int mp)
+    {
+        stats["MP"] -= mp;
+    }
+
+    public void AddMagic(int mp)
+    {
+        stats["MP"] += mp;
+    }
+
+    public void AddEffect(string effect)
+    {
+        buffWindow.Add(effect);
     }
 
     public abstract Skill GetSkill(string skillName);
