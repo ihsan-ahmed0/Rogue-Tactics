@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class PassiveSkill : Skill
 {
+
     // Boolean to determine whether a psssive skill activates when it is equipped.
     private bool activateOnEquip;
 
+    public PassiveSkill(string skillName, string skillDescription, (SkillEffect, int)[] newSkillEffects) : base(skillName, skillDescription, newSkillEffects)
+    {
+
+    }
+
     // This method is called to determine if the condition of a passive skill are met.
-    public bool isConditionMet()
+    public bool Condition()
     {
         // Todo
         return true;
@@ -31,5 +37,10 @@ public class PassiveSkill : Skill
             //Todo
         }
         
+    }
+
+    public override string GetTypeOfSkill()
+    {
+        return "PassiveSkill";
     }
 }
