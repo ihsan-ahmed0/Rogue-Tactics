@@ -9,7 +9,7 @@ public class Tile
     private int height; // Height of the tile in "half-blocks".
     private float spriteHeight; // Height of the tile sprite this Tile instance is representing (in Unity units).
     private Vector3 tilePosition;
-    private GameObject occupyingUnit;
+    private Unit occupyingUnit;
 
     public Tile(int height, float spriteHeight, Vector3 tilePosition)
     {
@@ -24,6 +24,12 @@ public class Tile
             this.spriteHeight = spriteHeight;
             this.tilePosition = tilePosition;
         }
+    }
+
+    // Return the position the tile should be placed.
+    public Vector3 GetTilePosition()
+    {
+        return tilePosition;
     }
 
     // Return the position where a unit will be when standing on this tile.
@@ -42,7 +48,7 @@ public class Tile
     }
 
     // Set the new unit currently occupying this tile as long as it is empty.
-    public void SetOccupyingUnit(GameObject newUnit)
+    public void SetOccupyingUnit(Unit newUnit)
     {
         if (occupyingUnit == null)
         {

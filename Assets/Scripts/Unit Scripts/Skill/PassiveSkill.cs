@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Condition
+{
+    Equp,
+    Unequip,
+    HpLoss
+}
+
 public class PassiveSkill : Skill
 {
-
-    // Boolean to determine whether a psssive skill activates when it is equipped.
-    private bool activateOnEquip;
 
     public PassiveSkill(string skillName, string skillDescription, (SkillEffect, int)[] newSkillEffects) : base(skillName, skillDescription, newSkillEffects)
     {
@@ -14,7 +18,7 @@ public class PassiveSkill : Skill
     }
 
     // This method is called to determine if the condition of a passive skill are met.
-    public bool Condition()
+    public bool CheckCondition()
     {
         // Todo
         return true;
@@ -32,10 +36,6 @@ public class PassiveSkill : Skill
     // unequipped and the unit loses the effets of the skill.
     public void DeactivateEffect()
     {
-        if (activateOnEquip)
-        {
-            //Todo
-        }
         
     }
 

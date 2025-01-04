@@ -204,14 +204,15 @@ public class LevelGrid
         {
             for (int j = 0; j < newCols; j++)
             {
-                float spriteWidth = (Resources.Load($"Prefabs/GrassTile{newHeights[i, j]}") as GameObject).GetComponent<SpriteRenderer>().size.x;
-                float spriteHeight = (Resources.Load($"Prefabs/GrassTile{newHeights[i, j]}") as GameObject).GetComponent<SpriteRenderer>().size.y;
+                float spriteWidth = (Resources.Load($"Prefabs/GrassTile2") as GameObject).GetComponent<SpriteRenderer>().size.x;
+                float spriteHeight = (Resources.Load($"Prefabs/GrassTile2") as GameObject).GetComponent<SpriteRenderer>().size.y;
 
                 float x = (0.5f * i - 0.5f * j) * spriteWidth;
                 float y = (0.25f * i + 0.25f * j) * spriteHeight;
 
                 Vector3 tilePosition = new Vector3(x + xOffset, y + ((newHeights[i, j] - 1) * sizeIncrement) + yOffset, y);
 
+                Debug.Log($"Tile being created at {i}, {j}");
                 Tile newTile = new Tile(newHeights[i, j], spriteHeight, tilePosition);
 
                 SetTileAt(i, j, newTile);

@@ -31,6 +31,11 @@ public class Unit : MonoBehaviour
         return unitData.GetStat(stat);
     }
 
+    public void ChangeStat(string stat, int delta)
+    {
+        unitData.ChangeStat(stat, delta);
+    }
+
     public void AddSkill(Skill newSkill)
     {
         if (newSkill.GetTypeOfSkill().CompareTo("ActiveSkill") == 0)
@@ -48,7 +53,8 @@ public class Unit : MonoBehaviour
 
     }
 
-    public void Attack(Unit defendingUnit)
+    // Method to generate a random modifier for various attacks based on a unit's Luck stat.
+    private float GenerateRandomModifier()
     {
         int critValue = Random.Range(1, 100);
         float randomMod;
@@ -60,30 +66,23 @@ public class Unit : MonoBehaviour
         {
             randomMod = Random.Range(3.0f, 4.0f);
         }
+        return randomMod;
+    }
 
-        int damage = (int) (0.4f * (float) unitData.Level +  (float) unitData.GetStat("ATK") * randomMod);
-
+    public void Attack(Unit defendingUnit)
+    {
+        int damage = (int) (0.4f * (float) unitData.Level +  (float) unitData.GetStat("ATK") * GenerateRandomModifier());
         defendingUnit.Defend(damage);
     }
 
     public void Spell(Unit defendingUnit)
     {
-        int critValue = Random.Range(1, 100);
-        float randomMod;
-        if (critValue <= unitData.GetStat("LCK"))
-        {
-            randomMod = Random.Range(1.0f, 1.5f);
-        }
-        else
-        {
-            randomMod = Random.Range(3.0f, 4.0f);
-        }
-
         // TODO: Implement spells and spell damage in this formula.
-        int damage = (int) (0.4f * (float) unitData.Level + 0.2f * (float) unitData.GetStat("MATK") * randomMod);
+        int damage = (int) (0.4f * (float) unitData.Level + 0.2f * (float) unitData.GetStat("MATK") * GenerateRandomModifier());
+        defendingUnit.Defend(damage);
     }
 
-    public void InvokeSkill(Skill invokedSkill)
+    public void InvokeSkill(Skill invokedSkill, Unit targetUnit)
     {
         (SkillEffect, int)[] effects = invokedSkill.GetSkillEffects();
 
@@ -92,20 +91,29 @@ public class Unit : MonoBehaviour
             switch (effects[i].Item1)
             {
                 case SkillEffect.DMG:
+                    int damage = (int) (0.4f * (float) unitData.Level + (float) effects[i].Item2 * GenerateRandomModifier());
+                    targetUnit.Defend(damage);
                     break;
                 case SkillEffect.HP:
+                    targetUnit.ChangeStat("HP", effects[i].Item2);
                     break;
                 case SkillEffect.ATK:
+                    targetUnit.ChangeStat("ATK", effects[i].Item2);
                     break;
                 case SkillEffect.DEF:
+                    targetUnit.ChangeStat("DEF", effects[i].Item2);
                     break;
                 case SkillEffect.MATK:
+                    targetUnit.ChangeStat("MATK", effects[i].Item2);
                     break;
                 case SkillEffect.MDEF:
+                    targetUnit.ChangeStat("MDEF", effects[i].Item2);
                     break;
                 case SkillEffect.MOV:
+                    targetUnit.ChangeStat("MOV", effects[i].Item2);
                     break;
                 case SkillEffect.LCK:
+                    targetUnit.ChangeStat("LCK", effects[i].Item2);
                     break;
                 default:
                     break;
@@ -125,6 +133,12 @@ public class Unit : MonoBehaviour
 
     public void CheckPassiveSkills()
     {
+        for (int i = 0; i < passiveSkills.Count; i++)
+        {
+            if (passiveSkills[i].CheckCondition())
+            {
 
+            }
+        }
     }
 }
