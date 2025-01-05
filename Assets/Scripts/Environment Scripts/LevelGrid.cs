@@ -212,7 +212,6 @@ public class LevelGrid
 
                 Vector3 tilePosition = new Vector3(x + xOffset, y + ((newHeights[i, j] - 1) * sizeIncrement) + yOffset, y);
 
-                Debug.Log($"Tile being created at {i}, {j}");
                 Tile newTile = new Tile(newHeights[i, j], spriteHeight, tilePosition);
 
                 SetTileAt(i, j, newTile);

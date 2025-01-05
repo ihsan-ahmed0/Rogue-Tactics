@@ -6,6 +6,11 @@ public class Level1Manager : MonoBehaviour
 {
     private LevelGrid level1;
     private GameObject[,] tileObjects;
+    private List<PlayerUnit> playerUnits;
+    private List<EnemyUnit> enemyUnits;
+    private int cursorX;
+    private int cursorY;
+    private Color originalTileColor;
 
     private GameObject PlaceTile(Tile tile)
     {
@@ -59,6 +64,79 @@ public class Level1Manager : MonoBehaviour
         return tileGameObject;
     }
 
+    private void ManageTileCursorInputs()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = originalTileColor;
+
+            if (cursorY < tileObjects.GetLength(0) - 1)
+            {
+                cursorY++;
+            }
+            if (cursorX < tileObjects.GetLength(1) - 1)
+            {
+                cursorX++;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = originalTileColor;
+
+            if ((cursorY % 2 == 0 && cursorX % 2 == 0) || (cursorY % 2 != 0 && cursorX % 2 != 0))
+            {
+                if (cursorY < tileObjects.GetLength(0) - 1)
+                    cursorY++;
+                else if (cursorX > 0)
+                    cursorX--;
+            }
+            else
+            {
+                if (cursorX > 0)
+                    cursorX--;
+                else if (cursorY < tileObjects.GetLength(0) - 1)
+                    cursorY++;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = originalTileColor;
+
+            if (cursorY > 0)
+            {
+                cursorY--;
+            }
+            if (cursorX > 0)
+            {
+                cursorX--;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = originalTileColor;
+
+            if ((cursorY % 2 == 0 && cursorX % 2 == 0) || (cursorY % 2 != 0 && cursorX % 2 != 0))
+            {
+                if (cursorX < tileObjects.GetLength(1) - 1)
+                    cursorX++;
+                else if (cursorY > 0)
+                    cursorY--;
+            }
+            else
+            {
+                if (cursorY > 0)
+                    cursorY--;
+                else if (cursorX < tileObjects.GetLength(1) - 1)
+                    cursorX++;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Debug.Log($"Selected tile at position ({cursorX},{cursorY})");
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,11 +157,15 @@ public class Level1Manager : MonoBehaviour
             }
         }
 
+        cursorX = 0;
+        cursorY = 0;
+        originalTileColor = tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = new Color(0.17f, 0.68f, 1.0f, 1.0f);
+        ManageTileCursorInputs();
     }
 }

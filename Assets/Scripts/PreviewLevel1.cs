@@ -9,7 +9,7 @@ public class PreviewLevel1 : MonoBehaviour
 {
     [Header("Position of the Grid")]
     [SerializeField] float xOffset = 0;
-    [SerializeField] float yOffset = -1.45f;
+    [SerializeField] float yOffset = -1.8f;
 
     // Dimensions of the level grid.
     private int gridWidth = 10;
