@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyUnit : Unit
 {
-    public EnemyUnit(string newName, ClassType newClass) : base(newName, newClass)
+    public void EnemyAI()
     {
-
+        // Todo
     }
 }

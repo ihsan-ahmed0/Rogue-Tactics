@@ -14,10 +14,17 @@ public class Unit : MonoBehaviour
     private List<ActiveSkill> activeSkills;
     private List<PassiveSkill> passiveSkills;
 
-    public Unit(string newName, ClassType newClass)
+    private GameObject unitGameObject;
+
+    public void Init(string newName, ClassType newClass)
     {
         unitName = newName;
         unitData = new UnitData(newClass);
+    }
+
+    public void SetGameObject(GameObject gameObject)
+    {
+        unitGameObject = gameObject;
     }
 
     public string GetName()

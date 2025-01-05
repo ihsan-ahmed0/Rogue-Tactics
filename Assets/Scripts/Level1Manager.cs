@@ -133,7 +133,9 @@ public class Level1Manager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            // Todo: logic for selecting unit
             Debug.Log($"Selected tile at position ({cursorX},{cursorY})");
+            // level1.GetTileAt(cursorX, cursorY).GetOccupyingUnit();
         }
     }
 
@@ -160,6 +162,12 @@ public class Level1Manager : MonoBehaviour
         cursorX = 0;
         cursorY = 0;
         originalTileColor = tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color;
+
+        // Todo: Place units.
+        playerUnits.Add(Instantiate(Resources.Load("Prefabs/Warrior") as GameObject, transform).GetComponent<PlayerUnit >());
+        
+        // initialize each playerUnit
+        // Example: level1.GetTileAt(3, 0).SetOccupyingUnit(unit);
     }
 
     // Update is called once per frame

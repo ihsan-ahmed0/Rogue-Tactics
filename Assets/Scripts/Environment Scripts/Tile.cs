@@ -47,6 +47,15 @@ public class Tile
         
     }
 
+    public Unit GetOccupyingUnit()
+    {
+        if (occupyingUnit == null) {
+            Debug.LogError("There is no unit here!");
+        }
+
+        return occupyingUnit;
+    }
+
     // Set the new unit currently occupying this tile as long as it is empty.
     public void SetOccupyingUnit(Unit newUnit)
     {
