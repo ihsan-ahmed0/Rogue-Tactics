@@ -22,11 +22,12 @@ public abstract class Skill
 
     private (SkillEffect, int)[] skillEffects;
 
-    protected Skill(string skillName, string skillDescription, (SkillEffect, int)[] newSkillEffects)
+    protected Skill(string skillName, string skillDescription, (SkillEffect, int)[] newSkillEffects, ClassType skillClass)
     {
         this.Name = skillName;
         this.Descripion = skillDescription;
         this.skillEffects = newSkillEffects;
+        Type = skillClass;
     }
 
     public (SkillEffect, int)[] GetSkillEffects()

@@ -62,7 +62,11 @@ public class Unit : MonoBehaviour
 
     public void Move(Vector3[] path)
     {
-
+        for (int i = 0; i < path.Length; i++)
+        {
+            // I would add linear interpolation if i had time
+            transform.position = path[i];
+        }
     }
 
     // Method to generate a random modifier for various attacks based on a unit's Luck stat.
@@ -143,13 +147,13 @@ public class Unit : MonoBehaviour
         unitData.ChangeStat("HP", spellDamage - unitData.GetStat("MDEF"));
     }
 
-    public void CheckPassiveSkills()
+    public void CheckPassiveSkills(Condition currentCondtion)
     {
         for (int i = 0; i < passiveSkills.Count; i++)
         {
-            if (passiveSkills[i].CheckCondition())
+            if (passiveSkills[i].CheckCondition(currentCondtion))
             {
-
+                InvokeSkill(passiveSkills[i], this);
             }
         }
     }

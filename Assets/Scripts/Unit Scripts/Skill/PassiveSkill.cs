@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Condition
@@ -11,17 +12,20 @@ public enum Condition
 
 public class PassiveSkill : Skill
 {
+    private Condition[] conditions;
 
-    public PassiveSkill(string skillName, string skillDescription, (SkillEffect, int)[] newSkillEffects) : base(skillName, skillDescription, newSkillEffects)
+    public PassiveSkill(string skillName, string skillDescription, (SkillEffect, int)[] newSkillEffects, ClassType skillClass) : base(skillName, skillDescription, newSkillEffects, skillClass)
     {
 
     }
 
     // This method is called to determine if the condition of a passive skill are met.
-    public bool CheckCondition()
+    public bool CheckCondition(Condition currentCondition)
     {
-        // Todo
-        return true;
+        if (conditions.Contains(currentCondition)) {
+            return true;
+        }
+        return false;
     }
 
     // This method is called whenever the conditions of a passive skill to be activated are met.

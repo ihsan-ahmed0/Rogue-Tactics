@@ -9,8 +9,10 @@ public enum ClassType
     Warrior,
     Rogue,
     Mage,
-    Archer
+    Archer,
+    All // This is is equivalent to any class in game logic. Used to make skills compatible with every class.
 }
+
 
 public class UnitData
 {
