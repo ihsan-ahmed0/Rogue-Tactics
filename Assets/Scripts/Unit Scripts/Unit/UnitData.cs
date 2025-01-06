@@ -115,6 +115,16 @@ public class UnitData
         else return -1;
     }
 
+    public string ShowStats()
+    {
+        string statString = "";
+        foreach (var stat in stats)
+        {
+            statString += $"{stat.Key}: {stat.Value}\n";
+        }
+        return statString;
+    }
+
     public void ChangeStat(string stat, int delta)
     {
         if (!stats.ContainsKey(stat)) return;

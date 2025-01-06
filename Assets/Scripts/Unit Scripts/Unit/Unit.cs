@@ -43,6 +43,11 @@ public class Unit : MonoBehaviour
         unitData.ChangeStat(stat, delta);
     }
 
+    public string GetInfo()
+    {
+        return unitData.ShowStats();
+    }
+
     public void AddSkill(Skill newSkill)
     {
         if (newSkill.GetTypeOfSkill().CompareTo("ActiveSkill") == 0)
