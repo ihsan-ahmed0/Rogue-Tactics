@@ -8,7 +8,7 @@ public class InfoBox : MonoBehaviour
     [SerializeField] TextMeshProUGUI infoText;
     void Start()
     {
-        infoText = GetComponent<TextMeshProUGUI>();
+        
     }
 
     public void DisplayText()

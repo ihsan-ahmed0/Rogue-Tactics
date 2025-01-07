@@ -151,6 +151,8 @@ public class Level1Manager : MonoBehaviour
         level1 = new LevelGrid();
         level1.LoadGrid("Level1");
         tileObjects = new GameObject[level1.GetRows(), level1.GetCols()];
+        playerUnits = new List<PlayerUnit>();
+        enemyUnits = new List<EnemyUnit>();
 
         for (int i = 0; i < level1.GetRows(); i++)
         {
@@ -165,11 +167,16 @@ public class Level1Manager : MonoBehaviour
         originalTileColor = tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color;
 
         // Todo: Place units.
-        // playerUnits.Add(Instantiate(Resources.Load("Prefabs/Warrior") as GameObject, transform).GetComponent<PlayerUnit>());
-        
+        playerUnits.Add(Instantiate(Resources.Load("Prefabs/Unit/Warrior") as GameObject, transform).GetComponent<PlayerUnit>());
+        playerUnits[0].Init("Gerald", ClassType.Warrior);
         // initialize each playerUnit
-        // Example: level1.GetTileAt(3, 0).SetOccupyingUnit(unit);
+        level1.GetTileAt(2, 3).SetOccupyingUnit(playerUnits[0]);
+        Vector3[] unitPosition = { level1.GetTileAt(2, 3).GetUnitPosition() };
+  
+        playerUnits[0].Move(unitPosition);
     }
+
+    public LevelGrid GetLevel() => level1;
 
     // Update is called once per frame
     void Update()

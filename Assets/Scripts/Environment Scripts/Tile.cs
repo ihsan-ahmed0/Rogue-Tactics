@@ -61,6 +61,7 @@ public class Tile
     {
         if (occupyingUnit == null)
         {
+            Debug.Log("Working?");
             occupyingUnit = newUnit;
         }
         else
