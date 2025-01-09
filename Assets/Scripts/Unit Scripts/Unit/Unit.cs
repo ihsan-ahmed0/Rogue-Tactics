@@ -69,6 +69,12 @@ public class Unit : MonoBehaviour
         }
     }
 
+    // Used exclusively for placing a unit on a particular tile
+    public void Move(Vector3 square)
+    {
+        transform.position = square;
+    }
+
     // Method to generate a random modifier for various attacks based on a unit's Luck stat.
     private float GenerateRandomModifier()
     {

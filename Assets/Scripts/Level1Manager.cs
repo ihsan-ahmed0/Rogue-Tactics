@@ -169,11 +169,24 @@ public class Level1Manager : MonoBehaviour
         // Todo: Place units.
         playerUnits.Add(Instantiate(Resources.Load("Prefabs/Unit/Warrior") as GameObject, transform).GetComponent<PlayerUnit>());
         playerUnits[0].Init("Gerald", ClassType.Warrior);
-        // initialize each playerUnit
+        playerUnits.Add(Instantiate(Resources.Load("Prefabs/Unit/Mage") as GameObject, transform).GetComponent<PlayerUnit>());
+        playerUnits[1].Init("Lex", ClassType.Mage);
+        playerUnits.Add(Instantiate(Resources.Load("Prefabs/Unit/Rogue") as GameObject, transform).GetComponent<PlayerUnit>());
+        playerUnits[2].Init("Leroy", ClassType.Rogue);
+        playerUnits.Add(Instantiate(Resources.Load("Prefabs/Unit/Archer") as GameObject, transform).GetComponent<PlayerUnit>());
+        playerUnits[3].Init("Aragon", ClassType.Archer);
+        // initialize each playerUnit to their tile
         level1.GetTileAt(2, 3).SetOccupyingUnit(playerUnits[0]);
-        Vector3[] unitPosition = { level1.GetTileAt(2, 3).GetUnitPosition() };
-  
-        playerUnits[0].Move(unitPosition);
+        level1.GetTileAt(2, 4).SetOccupyingUnit(playerUnits[1]);
+        level1.GetTileAt(3, 4).SetOccupyingUnit(playerUnits[2]);
+        level1.GetTileAt(4, 4).SetOccupyingUnit(playerUnits[3]);
+        // move all units to their tile
+        Vector3[] unitPosition = { level1.GetTileAt(2, 3).GetUnitPosition(), level1.GetTileAt(2, 4).GetUnitPosition(),
+        level1.GetTileAt(3, 4).GetUnitPosition(), level1.GetTileAt(4, 4).GetUnitPosition()};
+        for (int i = 0; i < playerUnits.Count; i++)
+        {
+            playerUnits[i].Move(unitPosition[i]);
+        }
     }
 
     public LevelGrid GetLevel() => level1;
