@@ -13,7 +13,6 @@ public class Unit : MonoBehaviour
     protected string unitName;
     private List<ActiveSkill> activeSkills;
     private List<PassiveSkill> passiveSkills;
-
     private GameObject unitGameObject;
 
     public void Init(string newName, ClassType newClass)
@@ -74,6 +73,7 @@ public class Unit : MonoBehaviour
     {
         transform.position = square;
     }
+
 
     // Method to generate a random modifier for various attacks based on a unit's Luck stat.
     private float GenerateRandomModifier()

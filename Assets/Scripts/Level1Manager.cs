@@ -136,7 +136,8 @@ public class Level1Manager : MonoBehaviour
             // Todo: logic for selecting unit
             Debug.Log($"Selected tile at position ({cursorX},{cursorY})");
             Unit unit = level1.GetTileAt(cursorX, cursorY).GetOccupyingUnit();
-            SelectionManager.Instance.SelectUnit(unit);
+            if (unit != null)
+                SelectionManager.Instance.SelectUnit(unit);
         }
     }
 
@@ -189,7 +190,16 @@ public class Level1Manager : MonoBehaviour
         }
     }
 
-    public LevelGrid GetLevel() => level1;
+    public void MoveUnit()
+    {
+        Unit unit = SelectionManager.Instance.GetUnit();
+        //Tile tile = level1.GetTileAt(cursorX, cursorY-1);
+        //Tile tile = level1.GetTileAt(cursorX+1, cursorY);
+        Tile tile = level1.GetTileAt(cursorX-1, cursorY);
+        tile.SetOccupyingUnit(unit);
+        //does not move if the tile deems if a unit is already there
+        unit.Move(tile.GetUnitPosition());
+    }
 
     // Update is called once per frame
     void Update()
