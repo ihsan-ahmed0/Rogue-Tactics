@@ -11,6 +11,12 @@ public class Level1Manager : MonoBehaviour
     private int cursorX;
     private int cursorY;
     private Color originalTileColor;
+    private int selectedX;
+    private int selectedY;
+    private Unit selectedUnit;
+    public ButtonManager ButtonManager;
+    public int turn;
+    public TurnBox turnBox;
 
     private GameObject PlaceTile(Tile tile)
     {
@@ -100,7 +106,12 @@ public class Level1Manager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = originalTileColor;
+            if (selectedUnit != null && IsWithinRadius(selectedUnit.GetStat("MOV"), selectedX, selectedY, cursorX, cursorY)){
+                tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = new Color(0.35f, 0.4f, 0.7f, 1.0f);
+            } else {
+                tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = originalTileColor;
+            }
+            
 
             if (cursorY > 0)
             {
@@ -134,11 +145,74 @@ public class Level1Manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             // Todo: logic for selecting unit
-            Debug.Log($"Selected tile at position ({cursorX},{cursorY})");
+            // Debug.Log($"Selected tile at position ({cursorX},{cursorY})");
             Unit unit = level1.GetTileAt(cursorX, cursorY).GetOccupyingUnit();
-            if (unit != null)
+            int radius = 0;
+            
+            if (unit != null){
+                selectedUnit = unit;
+                radius = selectedUnit.GetStat("MOV");
+                ClearUnitMoveTiles(radius, selectedX, selectedY);
+                
                 SelectionManager.Instance.SelectUnit(unit);
+                selectedX = cursorX;
+                selectedY = cursorY;
+
+                ButtonManager.showUnitUI();
+                ShowUnitMoveTiles(radius, selectedX, selectedY);
+            }
         }
+    }
+
+    private void ShowUnitMoveTiles(int r, int currX, int currY){
+
+        for (int x = -r; x <= r; x++){
+            for (int y = -r; y <= r; y++){
+                int distance = Mathf.Abs(x) + Mathf.Abs(y);
+
+                if (distance <= r){
+                    int targetX = currX + x;
+                    int targetY = currY + y;
+
+                    if (targetX >= 0 && targetX < tileObjects.GetLength(0) && targetY >= 0 && targetY < tileObjects.GetLength(1)){
+                        tileObjects[targetX, targetY].GetComponent<Renderer>().material.color = new Color(0.35f, 0.4f, 0.7f, 1.0f);
+                    }
+                }
+            }
+        }
+    }
+
+    private void ClearUnitMoveTiles(int r, int currX, int currY){
+
+        for (int x = -r; x <= r; x++){
+            for (int y = -r; y <= r; y++){
+                int distance = Mathf.Abs(x) + Mathf.Abs(y);
+
+                if (distance <= r){
+                    int targetX = currX + x;
+                    int targetY = currY + y;
+
+                    if (targetX >= 0 && targetX < tileObjects.GetLength(0) && targetY >= 0 && targetY < tileObjects.GetLength(1)){
+                        tileObjects[targetX, targetY].GetComponent<Renderer>().material.color = originalTileColor;
+                    }
+                }
+            }
+        }
+    }
+
+    public bool IsWithinRadius(int r, int currX, int currY, int targetX, int targetY)
+    {  
+        if (selectedUnit == null){
+            Debug.Log("No unit selected");
+            return false;
+        }
+        int distance = Mathf.Abs(targetX - currX) + Mathf.Abs(targetY - currY);
+
+        if (distance <= r && targetX >= 0 && targetX < tileObjects.GetLength(0) && targetY >= 0 && targetY < tileObjects.GetLength(1)){
+            return true;
+        }
+
+        return false;
     }
 
     // Start is called before the first frame update
@@ -189,22 +263,72 @@ public class Level1Manager : MonoBehaviour
             playerUnits[i].Move(unitPosition[i]);
         }
     }
+    
+    public bool MoveUnit() {
+        Unit unit = SelectionManager.Instance.GetUnit(); 
+        int radius = unit.GetStat("MOV");
 
-    public void MoveUnit()
-    {
-        Unit unit = SelectionManager.Instance.GetUnit();
-        //Tile tile = level1.GetTileAt(cursorX, cursorY-1);
-        //Tile tile = level1.GetTileAt(cursorX+1, cursorY);
-        Tile tile = level1.GetTileAt(cursorX-1, cursorY);
-        tile.SetOccupyingUnit(unit);
-        //does not move if the tile deems if a unit is already there
-        unit.Move(tile.GetUnitPosition());
+        if (unit != null && IsWithinRadius(radius, selectedX, selectedY, cursorX, cursorY)){
+            Tile tile = level1.GetTileAt(cursorX, cursorY);
+            level1.GetTileAt(selectedX, selectedY).RemoveOccupyingUnit();
+            tile.SetOccupyingUnit(unit);
+            //does not move if the tile deems if a unit is already there
+            unit.Move(tile.GetUnitPosition());
+
+            //changes order in layer
+            SpriteRenderer spriteRenderer = unit.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null){
+                Debug.Log("Changed sprite order");
+                spriteRenderer.sortingOrder = (10 - cursorY) * 2 + 1; 
+            }
+
+            selectedUnit = null;
+            ClearUnitMoveTiles(radius, selectedX, selectedY);
+            return true;
+
+        } else {
+            Debug.Log("Tile out of range");
+            return false;
+        }
+    }
+
+    public bool AttackUnit() {
+    Unit unit = SelectionManager.Instance.GetUnit(); 
+    Unit target = level1.GetTileAt(cursorX, cursorY).GetOccupyingUnit();
+
+        if (unit != null && target != null && IsWithinRadius(1, selectedX, selectedY, cursorX, cursorY)){
+            unit.Attack(target);
+            return true;
+
+        } else {
+            Debug.Log("Error with attack");
+            return false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (selectedUnit != null){
+            int radius = selectedUnit.GetStat("MOV");
+            ShowUnitMoveTiles(radius, selectedX, selectedY);
+        }
         tileObjects[cursorX, cursorY].GetComponent<Renderer>().material.color = new Color(0.17f, 0.68f, 1.0f, 1.0f);
         ManageTileCursorInputs();
     }
+
+    public void newPlayerTurn(){
+        for (int i = 0; i < playerUnits.Count; i++){
+            playerUnits[i].unsetAttack();
+            playerUnits[i].unsetMove();
+            playerUnits[i].unsetPass();
+        }
+        turn++;
+        turnBox.DisplayTurnText();
+    }
+
+    public int getTurn(){
+        return turn;
+    }
 }
+

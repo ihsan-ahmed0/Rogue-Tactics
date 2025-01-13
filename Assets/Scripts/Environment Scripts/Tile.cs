@@ -10,8 +10,11 @@ public class Tile
     private float spriteHeight; // Height of the tile sprite this Tile instance is representing (in Unity units).
     private Vector3 tilePosition;
     private Unit occupyingUnit;
+    private SpriteRenderer spriteRenderer;
+    float tileHeight = (Resources.Load($"Prefabs/GrassTile2") as GameObject).GetComponent<SpriteRenderer>().size.y;
 
-    public Tile(int height, float spriteHeight, Vector3 tilePosition)
+
+    public Tile(int height, float spriteHeight, Vector3 tilePosition, SpriteRenderer spriteRenderer)
     {
         if (height < 1 || height > 10)
         {
@@ -23,6 +26,7 @@ public class Tile
             this.height = height;
             this.spriteHeight = spriteHeight;
             this.tilePosition = tilePosition;
+            this.spriteRenderer = spriteRenderer;
         }
     }
 
@@ -42,7 +46,7 @@ public class Tile
         }
         else
         {
-            return tilePosition + new Vector3(0, spriteHeight * 0.5f, 0);
+            return tilePosition + new Vector3(0, tileHeight * 0.25f * (height + 2f) * 0.5f + tileHeight * 0.25f, 0);
         }
         
     }
@@ -61,7 +65,7 @@ public class Tile
     {
         if (occupyingUnit == null)
         {
-            Debug.Log("Working?");
+            // Debug.Log("Working?");
             occupyingUnit = newUnit;
         }
         else
@@ -87,4 +91,20 @@ public class Tile
 
         return height;
     }
+
+    public SpriteRenderer GetSpriteRenderer()
+    {
+        return spriteRenderer;
+    }
+
+    public void SetLayer(int layer)
+    {
+        // if (spriteRenderer == null)
+        // {
+        //     Debug.LogError("SpriteRenderer not assigned to this tile!");
+        //     return;
+        // }
+        // spriteRenderer.sortingOrder = layer;
+    }
+
 }

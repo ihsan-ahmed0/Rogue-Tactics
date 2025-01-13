@@ -20,6 +20,19 @@ public class LevelGrid
     // Variables to adjust the position of the tiles on the fiurst render.
     private float xOffset;
     private float yOffset;
+    private Dictionary<int, string> tilePrefabs = new Dictionary<int, string>
+    {
+        { 1, "Prefabs/GrassTile1" },
+        { 2, "Prefabs/GrassTile2" },
+        { 3, "Prefabs/GrassTile3" },
+        { 4, "Prefabs/GrassTile4" },
+        { 5, "Prefabs/GrassTile5" },
+        { 6, "Prefabs/GrassTile6" },
+        { 7, "Prefabs/GrassTile7" },
+        { 8, "Prefabs/GrassTile8" },
+        { 9, "Prefabs/GrassTile9" },
+        { 10, "Prefabs/GrassTile10" },
+    };
 
     // Method to initialize the grid. Should only be called once after the LevelGrid is created.
     public void InitializeGrid(int rows, int columns)
@@ -37,6 +50,7 @@ public class LevelGrid
             Debug.LogError("This LevelGrid has already been initialized!");
         }
     }
+
 
     // Set horizontal and vertical offsets that adjust the position of the LevelGrid when rendered.
     public void SetOffsets(float newXOffset, float newYOffset)
@@ -204,15 +218,22 @@ public class LevelGrid
         {
             for (int j = 0; j < newCols; j++)
             {
+                GameObject tilePrefab = Resources.Load<GameObject>("Prefabs/GrassTile2");
+                SpriteRenderer spriteRenderer = tilePrefab.GetComponent<SpriteRenderer>();
+
+
                 float spriteWidth = (Resources.Load($"Prefabs/GrassTile2") as GameObject).GetComponent<SpriteRenderer>().size.x;
                 float spriteHeight = (Resources.Load($"Prefabs/GrassTile2") as GameObject).GetComponent<SpriteRenderer>().size.y;
+
+                int spriteLayer = i * 2;
 
                 float x = (0.5f * i - 0.5f * j) * spriteWidth;
                 float y = (0.25f * i + 0.25f * j) * spriteHeight;
 
                 Vector3 tilePosition = new Vector3(x + xOffset, y + ((newHeights[i, j] - 1) * sizeIncrement) + yOffset, y);
 
-                Tile newTile = new Tile(newHeights[i, j], spriteHeight, tilePosition);
+                Tile newTile = new Tile(newHeights[i, j], spriteHeight, tilePosition, spriteRenderer);
+                newTile.SetLayer(spriteLayer);
 
                 SetTileAt(i, j, newTile);
             }

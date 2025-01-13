@@ -82,11 +82,11 @@ public class Unit : MonoBehaviour
         float randomMod;
         if (critValue <= unitData.GetStat("LCK"))
         {
-            randomMod = Random.Range(1.0f, 1.5f);
+            randomMod = Random.Range(3.0f, 4.0f);
         }
         else
         {
-            randomMod = Random.Range(3.0f, 4.0f);
+            randomMod = Random.Range(1.0f, 1.5f);
         }
         return randomMod;
     }
@@ -145,12 +145,12 @@ public class Unit : MonoBehaviour
 
     public void Defend(int attackDamage)
     {
-        unitData.ChangeStat("HP", attackDamage - unitData.GetStat("DEF"));
+        unitData.ChangeStat("HP", -1 * (attackDamage - unitData.GetStat("DEF")));
     }
 
     public void DefendMagic(int spellDamage)
     {
-        unitData.ChangeStat("HP", spellDamage - unitData.GetStat("MDEF"));
+        unitData.ChangeStat("HP", -1 * (spellDamage - unitData.GetStat("MDEF")));
     }
 
     public void CheckPassiveSkills(Condition currentCondtion)
@@ -162,5 +162,28 @@ public class Unit : MonoBehaviour
                 InvokeSkill(passiveSkills[i], this);
             }
         }
+    }
+
+    public void setMove(){
+        unitData.setMove();
+    }
+
+    public void setAttack(){
+        unitData.setAttack();
+    }
+    public void setPass(){
+        unitData.setPass();
+    }
+
+    public void unsetPass(){
+        unitData.unsetPass();
+    }
+
+    public void unsetMove(){
+        unitData.unsetMove();
+    }
+
+    public void unsetAttack(){
+        unitData.unsetAttack();
     }
 }

@@ -6,7 +6,7 @@ public class SelectionManager : MonoBehaviour
 {
     // Keeps track of what the cursor has selected
     public static SelectionManager Instance { get; private set; }
-    private Unit selectedUnit;
+    public Unit selectedUnit;
     InfoBox info;
     void Awake()
     {
@@ -22,5 +22,4 @@ public class SelectionManager : MonoBehaviour
         selectedUnit = unit;
         info.DisplayText();
     }
-
 }

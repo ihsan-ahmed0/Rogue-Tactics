@@ -67,6 +67,9 @@ public class UnitData
                 stats["LCK"]  =  7;
                 stats["XP"]   =  0;
                 stats["MXP"]  = 20;
+                stats["Moved"] = 0;
+                stats["Attacked"] = 0;
+                stats["Passed"] = 0;
                 break;
             case ClassType.Rogue:
                 stats["HP"]   = 10;
@@ -79,6 +82,9 @@ public class UnitData
                 stats["LCK"]  =  7;
                 stats["XP"]   =  0;
                 stats["MXP"]  = 20;
+                stats["Moved"] = 0;
+                stats["Attacked"] = 0;
+                stats["Passed"] = 0;
                 break;
             case ClassType.Mage:
                 stats["HP"]   = 10;
@@ -91,6 +97,9 @@ public class UnitData
                 stats["LCK"]  =  7;
                 stats["XP"]   =  0;
                 stats["MXP"]  = 20;
+                stats["Moved"] = 0;
+                stats["Attacked"] = 0;
+                stats["Passed"] = 0;
                 break;
             case ClassType.Archer:
                 stats["HP"]   = 10;
@@ -103,6 +112,9 @@ public class UnitData
                 stats["LCK"]  =  7;
                 stats["XP"]   =  0;
                 stats["MXP"]  = 20;
+                stats["Moved"] = 0;
+                stats["Attacked"] = 0;
+                stats["Passed"] = 0;
                 break;
             default:
                 break;
@@ -122,7 +134,10 @@ public class UnitData
         string statString = "";
         foreach (var stat in stats)
         {
-            statString += $"{stat.Key}: {stat.Value}\n";
+            if (!string.Equals(stat.Key, "Moved") && !string.Equals(stat.Key, "Attacked") && !string.Equals(stat.Key, "Passed"))
+            {
+                statString += $"{stat.Key}: {stat.Value}\n";
+            }
         }
         return statString;
     }
@@ -132,6 +147,30 @@ public class UnitData
         if (!stats.ContainsKey(stat)) return;
 
         stats[stat] += delta;
+    }
+
+    public void setMove(){
+        stats["Moved"] = 1;
+    }
+
+    public void setAttack(){
+        stats["Attacked"] = 1;
+    }
+
+    public void setPass(){
+        stats["Passed"] = 1;
+    }
+
+    public void unsetPass(){
+        stats["Passed"] = 0;
+    }
+
+    public void unsetMove(){
+        stats["Moved"] = 0;
+    }
+
+    public void unsetAttack(){
+        stats["Attacked"] = 0;
     }
 
     // every class levels differently

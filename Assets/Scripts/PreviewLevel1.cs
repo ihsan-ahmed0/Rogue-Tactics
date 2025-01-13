@@ -101,12 +101,15 @@ public class PreviewLevel1 : MonoBehaviour
 
                 // Instantiate tile GameObject.
                 tileGameObject.transform.localPosition = tilePosition;
+
+                SpriteRenderer spriteRenderer = tileGameObject.GetComponent<SpriteRenderer>();
                 
                 // Instantiate tile class.
                 newTile = new Tile(
                     tileHeights[i, j],
                     tileGameObject.GetComponent<SpriteRenderer>().size.y,
-                    tilePosition
+                    tilePosition,
+                    spriteRenderer
                 );
 
                 // Place tile in the LevelGrid.
